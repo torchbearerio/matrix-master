@@ -44,7 +44,7 @@ def handle_crop_task(task_input, task_token):
     ct.run()
 
 if __name__ == '__main__':
-    handle_mask_task({"epId": 298, "hitId": 675}, "asdfadsf")
+    # handle_mask_task({"epId": 298, "hitId": 675}, "asdfadsf")
     maskTask = Constants.TASK_ARNS['DERIVE_RECTS_FROM_MASK']
     scoreTask = Constants.TASK_ARNS['SCORE_VISUAL_SALIENCY']
     markTask = Constants.TASK_ARNS['LANDMARK_MARKER']
