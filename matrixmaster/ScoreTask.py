@@ -50,8 +50,10 @@ class ScoreTask(Task.Task):
 
                         # If rectangle was not already defined by another service, do optimistic saliency search
                         # Note that this can still return None
+                        # Save this rect with landmark back to db
                         if r is None:
-                            r = OptimisticSearch.get_salient_area_at_degrees(img, sm, r.relative_bearing)
+                            r = OptimisticSearch.get_salient_area_at_degrees(img, sm, landmark.relative_bearing)
+                            landmark.set_rect(r)
 
                         visual_saliency_score = sm[r['y1']:r['y2'], r['x1']:r['x2']].sum() / float(image_saliency_sum) \
                             if r is not None else 0

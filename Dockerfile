@@ -22,7 +22,7 @@ RUN apt-get install -y curl grep sed dpkg && \
     rm tini.deb && \
     apt-get clean
 
-RUN apt-get install -y libmysqlclient-dev
+RUN apt-get install -y libmysqlclient15-dev
 
 RUN apt-get install -y build-essential
 

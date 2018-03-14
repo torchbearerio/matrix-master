@@ -7,8 +7,6 @@ import os
 
 def make_bounding_boxes(sm):
 
-    sm[300:400, 20:200] = 255
-
     # Apply Otsu's thresholding to saliency matrix
     # Otsu' finds optimal value for threshold--values > than thresh get 255, < get 0
     # This gives a binary segmentation of salient/non-salient
@@ -17,10 +15,6 @@ def make_bounding_boxes(sm):
     if os.environ.get('debug'):
         cv2.imshow("Thresh", thresh)
         cv2.waitKey()
-
-    # For each "salient" pixel in binary threshold, compute distance to nearest non-salient pixel
-    # This will leave us with the most intense values being at the center of salient regions,
-    # as they are farthest from boundary of salient region
 
     # noise removal
     kernel = np.ones((3, 3), np.uint8)
@@ -36,6 +30,9 @@ def make_bounding_boxes(sm):
     #cv2.waitKey()
 
     # Finding sure foreground (salient) area.
+    # For each "salient" pixel in binary threshold, compute distance to nearest non-salient pixel
+    # This will leave us with the most intense values being at the center of salient regions,
+    # as they are farthest from boundary of salient region
     dist_transform = cv2.distanceTransform(cleaned, cv2.cv.CV_DIST_L2, 5)
 
     #cv2.imshow("distance_transform", dist_transform / 255)
@@ -90,8 +87,10 @@ def make_bounding_boxes(sm):
             cv2.waitKey(0)
 
         # If this region is smaller than 2% of image, ignore it
+        '''
         if np.count_nonzero(mask) < 0.02 * sm.size:
             continue
+        '''
 
         # Otherwise, create a landmark based on the bounding box around this region
         # Find bounding box based on original saliency mask

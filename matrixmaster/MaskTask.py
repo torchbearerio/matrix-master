@@ -113,7 +113,8 @@ class MaskTask(Task.Task):
         landmark = Landmark.Landmark(
             landmark_id=candidate['id'],
             hit_id=self.hit_id,
-            position=candidate['position']
+            position=candidate['position'],
+            status="UNKNOWN"
         )
         landmark.set_rect(candidate['rect'])
 

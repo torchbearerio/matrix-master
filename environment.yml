@@ -8,6 +8,8 @@ channels:
   'anaconda'
 - !!python/unicode
   'defaults'
+- !!python/unicode
+  'conda-forge'
 dependencies:
 - !!python/unicode
   'mysql-python=1.2.5=py27_0'
@@ -102,7 +104,7 @@ dependencies:
 - !!python/unicode
   'opencv3=3.1.0=py27_0'
 - !!python/unicode
-  'tbb=4.3_20141023=0'
+  'tbb=4.4_20160413=0'
 - pip:
   - aniso8601==1.2.1
   - boto==2.46.1
