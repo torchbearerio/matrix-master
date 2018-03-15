@@ -38,6 +38,10 @@ ADD environment.yml environment.yml
 RUN conda env create -f environment.yml
 ENV PATH /opt/conda/envs/matrix/bin:$PATH
 
+# MySQL has some issues locating binary. Simplest solution is to uninstall/install
+RUN pip uninstall -y MySQL-python; exit 0
+RUN pip install --no-binary MySQL-python MySQL-python
+
 ADD https://api.github.com/repos/torchbearerio/python-core/git/refs/heads/master version.json
 RUN pip install git+https://github.com/torchbearerio/python-core.git --upgrade
 
