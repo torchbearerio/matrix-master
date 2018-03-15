@@ -12,13 +12,9 @@ channels:
   'conda-forge'
 dependencies:
 - !!python/unicode
-  'mysql-python=1.2.5=py27_0'
-- !!python/unicode
   'jpeg=8d=2'
 - !!python/unicode
   'lcms=1.19=0'
-- !!python/unicode
-  'sqlalchemy=1.1.9=py27_0'
 - !!python/unicode
   'anaconda-client=1.6.2=py27_0'
 - !!python/unicode
@@ -125,5 +121,6 @@ dependencies:
   - s3transfer==0.1.10
   - smart-open==1.5.2
   - werkzeug==0.12.1
+  - sqlalchemy==1.1.18
 prefix: !!python/unicode '/Users/fredricvollmer/anaconda/envs/matrix'
 
