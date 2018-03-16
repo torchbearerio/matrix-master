@@ -33,7 +33,7 @@ def make_bounding_boxes(sm):
     # For each "salient" pixel in binary threshold, compute distance to nearest non-salient pixel
     # This will leave us with the most intense values being at the center of salient regions,
     # as they are farthest from boundary of salient region
-    dist_transform = cv2.distanceTransform(cleaned, cv2.CV_DIST_L2, 5)
+    dist_transform = cv2.distanceTransform(cleaned, cv2.DIST_L2, 5)
 
     #cv2.imshow("distance_transform", dist_transform / 255)
     #cv2.waitKey()
