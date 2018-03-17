@@ -77,6 +77,9 @@ class CropTask(Task.Task):
             session.rollback()
             self.send_failure('CROP_ERROR', e.message)
 
+        finally:
+            session.close()
+
     def _get_streetview_image(self, position):
         client = AWSClient.get_client('s3')
         response = client.get_object(

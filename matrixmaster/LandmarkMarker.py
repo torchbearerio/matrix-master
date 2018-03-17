@@ -19,10 +19,10 @@ class LandmarkMarker (Task.Task):
     def _run_landmark_marker(self):
         print("Starting mark task for ep {}, hit {}".format(self.ep_id, self.hit_id))
 
-        try:
-            # Create DB session
-            session = TorchbearerDB.Session()
+        # Create DB session
+        session = TorchbearerDB.Session()
 
+        try:
             # Load from S3, across all positions available for corresponding ExecutionPoint
             for position in Constants.LANDMARK_POSITIONS.values():
                 if AWSClient.s3_key_exists(Constants.S3_BUCKETS['STREETVIEW_IMAGES'],
@@ -64,12 +64,18 @@ class LandmarkMarker (Task.Task):
                         self._put_marked_streetview_image(img_file, landmark.landmark_id)
                         # fig.show()
 
+            # Commit DB inserts
+            session.commit()
+
             self.send_success()
             print("Completed mark task for ep {}, hit {}".format(self.ep_id, self.hit_id))
 
         except Exception, e:
             traceback.print_exc()
             self.send_failure('LANDMARK_MARK_ERROR', e.message)
+
+        finally:
+            session.close()
 
     def _get_streetview_image(self, position):
         client = AWSClient.get_client('s3')

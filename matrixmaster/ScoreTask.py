@@ -72,6 +72,9 @@ class ScoreTask(Task.Task):
             session.rollback()
             self.send_failure('MATRIX MASTER ERROR', e.message)
 
+        finally:
+            session.close()
+
     def _get_saliency_matrix(self, position):
         client = AWSClient.get_client('s3')
         response = client.get_object(
