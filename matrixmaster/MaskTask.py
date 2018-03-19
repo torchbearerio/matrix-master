@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image
 from pythoncore import Task, Constants
 from pythoncore.AWS import AWSClient
-from pythoncore.Model import TorchbearerDB, Landmark
+from pythoncore.Model import TorchbearerDB, Landmark, Hit
 from matplotlib import pyplot as plt
 import os
 import cv2
@@ -28,6 +28,9 @@ class MaskTask(Task.Task):
         session = TorchbearerDB.Session()
 
         try:
+            hit = session.query(Hit.Hit).filter_by(hit_id=self.hit_id).one()
+            hit.set_start_time_for_task("mask")
+
             for position in Constants.LANDMARK_POSITIONS.values():
                 if AWSClient.s3_key_exists(Constants.S3_BUCKETS['SALIENCY_MAPS'],
                                            "{}_{}.json".format(self.hit_id, position)):
@@ -50,6 +53,8 @@ class MaskTask(Task.Task):
 
                         # Insert candidate landmark into DB
                         self._insert_candidate_landmark(landmark, session)
+
+            hit.set_end_time_for_task("mask")
 
             # Commit DB inserts
             session.commit()

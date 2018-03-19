@@ -2,6 +2,7 @@ from pythoncore import Task, Constants
 from pythoncore.AWS import AWSClient
 from pythoncore.Model import TorchbearerDB
 from pythoncore.Model.Landmark import Landmark
+from pythoncore.Model.Hit import Hit
 from PIL import Image
 from io import StringIO
 import traceback
@@ -20,6 +21,9 @@ class CropTask(Task.Task):
         session = TorchbearerDB.Session()
 
         try:
+            hit = session.query(Hit).filter_by(hit_id=self.hit_id).one()
+            hit.set_start_time_for_task("crop")
+
             # Load from S3, across all positions available for corresponding ExecutionPoint
             for position in Constants.LANDMARK_POSITIONS.values():
                 if AWSClient.s3_key_exists(Constants.S3_BUCKETS['STREETVIEW_IMAGES'],
@@ -65,6 +69,8 @@ class CropTask(Task.Task):
 
                         # Put cropped images into S3
                         self._put_cropped_image(img, landmark.landmark_id)
+
+            hit.set_end_time_for_task("crop")
 
             # Commit DB inserts, if any
             session.commit()

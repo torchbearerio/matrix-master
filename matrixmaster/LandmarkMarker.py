@@ -23,6 +23,9 @@ class LandmarkMarker (Task.Task):
         session = TorchbearerDB.Session()
 
         try:
+            hit = session.query(Hit).filter_by(hit_id=self.hit_id).one()
+            hit.set_start_time_for_task("landmark_mark")
+
             # Load from S3, across all positions available for corresponding ExecutionPoint
             for position in Constants.LANDMARK_POSITIONS.values():
                 if AWSClient.s3_key_exists(Constants.S3_BUCKETS['STREETVIEW_IMAGES'],
@@ -63,6 +66,8 @@ class LandmarkMarker (Task.Task):
                         fig.savefig(img_file, format='png', bbox_inches='tight', pad_inches=0)
                         self._put_marked_streetview_image(img_file, landmark.landmark_id)
                         # fig.show()
+
+            hit.set_end_time_for_task("landmark_mark")
 
             # Commit DB inserts
             session.commit()
