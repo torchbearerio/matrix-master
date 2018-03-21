@@ -37,7 +37,7 @@ class LandmarkMarker (Task.Task):
                     # Get all landmarks for this hit for given position
                     for landmark in session.query(Landmark).filter_by(hit_id=self.hit_id, position=position).all():
                         # Create figure and axes
-                        fig, ax = plt.subplots(1)
+                        fig, ax = plt.subplots(figsize=(8, 8), dpi=72)
 
                         # Remove axes
                         ax.axis('off')
