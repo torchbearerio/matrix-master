@@ -52,7 +52,7 @@ if __name__ == '__main__':
     # cropTask = Constants.TASK_ARNS['CROP_LANDMARKS']
 
     WorkerService.start(
-        (scoreTask, handle_score_task),
-        (markTask, handle_mark_task),
-        (maskTask, handle_mask_task)
+        (scoreTask, handle_score_task, 2),
+        (markTask, handle_mark_task, 2),
+        (maskTask, handle_mask_task, 2)
     )
