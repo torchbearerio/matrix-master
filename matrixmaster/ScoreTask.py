@@ -32,7 +32,7 @@ class ScoreTask(Task.Task):
             # Load saliency mask and image from S3, across all positions available for this ExecutionPoint
             for position in Constants.LANDMARK_POSITIONS.values():
                 if AWSClient.s3_key_exists(Constants.S3_BUCKETS['STREETVIEW_IMAGES'],
-                                           "{}_{}.jpg".format(self.ep_id, position)):
+                                           "{}_{}.jpg".format(self.hit_id, position)):
                     sm = self._get_saliency_matrix(position)
                     img = self._get_streetview_image(position)
 
@@ -93,7 +93,7 @@ class ScoreTask(Task.Task):
         client = AWSClient.get_client('s3')
         response = client.get_object(
             Bucket=Constants.S3_BUCKETS['STREETVIEW_IMAGES'],
-            Key="{}_{}.jpg".format(self.ep_id, position)
+            Key="{}_{}.jpg".format(self.hit_id, position)
         )
         img = Image.open(response['Body'])
         # img.show()

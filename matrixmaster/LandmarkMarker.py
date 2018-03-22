@@ -29,7 +29,7 @@ class LandmarkMarker (Task.Task):
             # Load from S3, across all positions available for corresponding ExecutionPoint
             for position in Constants.LANDMARK_POSITIONS.values():
                 if AWSClient.s3_key_exists(Constants.S3_BUCKETS['STREETVIEW_IMAGES'],
-                                           "{}_{}.jpg".format(self.ep_id, position)):
+                                           "{}_{}.jpg".format(self.hit_id, position)):
 
                     # Get streetview image for this Hit's ExecutionPoint
                     img_array = self._get_streetview_image(position)
@@ -86,7 +86,7 @@ class LandmarkMarker (Task.Task):
         client = AWSClient.get_client('s3')
         response = client.get_object(
             Bucket=Constants.S3_BUCKETS['STREETVIEW_IMAGES'],
-            Key="{}_{}.jpg".format(self.ep_id, position)
+            Key="{}_{}.jpg".format(self.hit_id, position)
         )
         img = Image.open(response['Body'])
         # img.show()
